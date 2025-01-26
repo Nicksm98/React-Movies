@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import SearchBar from '../comps/SearchBar'
 
 const Nav = ({ Results, Error, Query }) => {
-  const [query, setQuery] = useState('')
+  const [query] = useState('')
   const navigate = useNavigate()
 
   const handleSearch = async (e) => {
     e.preventDefault()
     const apiKey = process.env.REACT_APP_API_KEY
-    const page = 1 // Set the initial page to 1
+    const page = 1 
     const url = `https://www.omdbapi.com/?apikey=${apiKey}&s=${encodeURIComponent(query)}&page=${page}`
 
     try {
@@ -39,7 +39,6 @@ const Nav = ({ Results, Error, Query }) => {
         <SearchBar
           handleSearch={handleSearch}
           query={query}
-          Query={setQuery}
         />
       </div>
     </>

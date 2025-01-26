@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import { SearchContext } from '../SearchContext';
 
 const Option = () => {
-  const { sortType, setSortType, query } = useContext(SearchContext);
+  const { sortType, SortType, query } = useContext(SearchContext);
 
   const handleSortChange = (e) => {
-    setSortType(e.target.value);
+    SortType(e.target.value);
   };
 
   return (

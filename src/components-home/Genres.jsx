@@ -6,7 +6,7 @@ const Genres = ({ secondHalf }) => {
     <div className='genre__container'>
         {secondHalf.map(image => (
           <Img
-            key={image.id} // Unique key prop
+            key={image.id} 
             src={image.src}
             alt={image.alt}
             className={image.className}

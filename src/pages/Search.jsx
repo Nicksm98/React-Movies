@@ -11,8 +11,8 @@ const Search = ({ query }) => {
     visibleMovies,
     page,
     error,
-    setVisibleMovies,
-    setPage,
+    VisibleMovies,
+    Page,
     fetchMovies,
   } = useContext(SearchContext);
 
@@ -24,8 +24,8 @@ const Search = ({ query }) => {
   }, [searchQuery, page, fetchMovies]);
 
   const showMoreMovies = () => {
-    setVisibleMovies(prevVisibleMovies => prevVisibleMovies + 10);
-    setPage(prevPage => prevPage + 1);
+    VisibleMovies(prevVisibleMovies => prevVisibleMovies + 10);
+    Page(prevPage => prevPage + 1);
   };
 
   return (

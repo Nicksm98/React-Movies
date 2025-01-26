@@ -3,11 +3,11 @@ import React, { createContext, useState, useEffect } from 'react';
 export const SearchContext = createContext();
 
 export const SearchProvider = ({ children }) => {
-  const [results, setResults] = useState([]);
-  const [visibleMovies, setVisibleMovies] = useState(10);
-  const [page, setPage] = useState(1);
-  const [sortType, setSortType] = useState('');
-  const [error, setError] = useState(null);
+  const [results, Results] = useState([]);
+  const [visibleMovies, VisibleMovies] = useState(10);
+  const [page, Page] = useState(1);
+  const [sortType, SortType] = useState('');
+  const [error, Error] = useState(null);
   const apiKey = process.env.REACT_APP_API_KEY;
 
   const fetchMovies = async (query, page) => {
@@ -21,9 +21,9 @@ export const SearchProvider = ({ children }) => {
       if (data.Response === 'False') {
         throw new Error(data.Error);
       }
-      setResults(prevResults => [...prevResults, ...data.Search]);
+      Results(prevResults => [...prevResults, ...data.Search]);
     } catch (error) {
-      setError(error.message);
+      Error(error.message);
     }
   };
 
@@ -42,7 +42,7 @@ export const SearchProvider = ({ children }) => {
           return 0;
       }
     });
-    setResults(sortedResults);
+    Results(sortedResults);
   }, [sortType, results]);
 
   return (
@@ -53,10 +53,10 @@ export const SearchProvider = ({ children }) => {
         page,
         sortType,
         error,
-        setResults,
-        setVisibleMovies,
-        setPage,
-        setSortType,
+        Results,
+        VisibleMovies,
+        Page,
+        SortType,
         fetchMovies,
       }}
     >
