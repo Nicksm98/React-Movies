@@ -8,7 +8,7 @@ const Img = ({ src, alt, className, genre }) => {
         <img src={src || null} alt={alt} className={className} />
         <div className='genre__bg'></div>
         <div className='genre__description'>
-          <a>{genre}</a>
+          <div>{genre}</div>
         </div>
       </figure>
     </div>

@@ -43,7 +43,7 @@ export const SearchProvider = ({ children }) => {
       }
     });
     setResults(sortedResults);
-  }, [sortType]);
+  }, [sortType, results]);
 
   return (
     <SearchContext.Provider
