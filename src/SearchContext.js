@@ -1,16 +1,19 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useCallback } from 'react';
 
 export const SearchContext = createContext();
 
 export const SearchProvider = ({ children }) => {
-  const [results, Results] = useState([]);
-  const [visibleMovies, VisibleMovies] = useState(10);
-  const [page, Page] = useState(1);
-  const [sortType, SortType] = useState('');
-  const [error, Error] = useState(null);
+  const [results, setResults] = useState([]);
+  const [visibleMovies, setVisibleMovies] = useState(10);
+  const [page, setPage] = useState(1);
+  const [error, setError] = useState(null);
+  const [sortType, setSortType] = useState('title');
   const apiKey = process.env.REACT_APP_API_KEY;
 
-  const fetchMovies = async (query, page) => {
+  const fetchMovies = useCallback(async (query, page, reset = false) => {
+    if (reset) {
+      setResults([]); // Clear previous results for new search
+    }
     const url = `https://www.omdbapi.com/?apikey=${apiKey}&s=${encodeURIComponent(query)}&page=${page}`;
     try {
       const response = await fetch(url);
@@ -21,29 +24,11 @@ export const SearchProvider = ({ children }) => {
       if (data.Response === 'False') {
         throw new Error(data.Error);
       }
-      Results(prevResults => [...prevResults, ...data.Search]);
+      setResults(prevResults => [...prevResults, ...data.Search]);
     } catch (error) {
-      Error(error.message);
+      setError(error.message);
     }
-  };
-
-  useEffect(() => {
-    const sortedResults = [...results].sort((a, b) => {
-      switch (sortType) {
-        case 'title':
-          return a.Title.localeCompare(b.Title);
-        case 'title-desc':
-          return b.Title.localeCompare(a.Title);
-        case 'Old-New':
-          return new Date(a.Year) - new Date(b.Year);
-        case 'New-Old':
-          return new Date(b.Year) - new Date(a.Year);
-        default:
-          return 0;
-      }
-    });
-    Results(sortedResults);
-  }, [sortType, results]);
+  }, [apiKey]);
 
   return (
     <SearchContext.Provider
@@ -51,13 +36,13 @@ export const SearchProvider = ({ children }) => {
         results,
         visibleMovies,
         page,
-        sortType,
-        error,
-        Results,
-        VisibleMovies,
-        Page,
-        SortType,
         fetchMovies,
+        setVisibleMovies,
+        setPage,
+        setResults,
+        error,
+        sortType,
+        setSortType
       }}
     >
       {children}

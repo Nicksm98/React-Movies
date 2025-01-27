@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { SearchContext } from '../SearchContext';
 
 const Option = () => {
-  const { sortType, setSortType, query } = useContext(SearchContext);
+  const { sortType, setSortType } = useContext(SearchContext);
 
   const handleSortChange = (e) => {
     setSortType(e.target.value);
@@ -10,7 +10,7 @@ const Option = () => {
 
   return (
     <div className='search__menu'>
-      <h1>Search Results: {query}</h1>
+      <h1>Sort Results</h1>
       <select id='sort-type' value={sortType} onChange={handleSortChange}>
         <option value='title'>Title, A-Z</option>
         <option value='title-desc'>Title, Z-A</option>

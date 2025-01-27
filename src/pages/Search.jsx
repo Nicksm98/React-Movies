@@ -2,59 +2,66 @@ import React, { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Movies from '../components-search/Movies';
 import Option from '../components-search/Option';
-import ErrorBoundary from '../comps/ErrorBoundary';
 import { SearchContext } from '../SearchContext';
 
-const Search = ({ query }) => {
+const Search = () => {
   const {
     results,
     visibleMovies,
     page,
-    error,
+    fetchMovies,
     setVisibleMovies,
     setPage,
-    fetchMovies,
+    setResults,
+    error,
+    sortType,
   } = useContext(SearchContext);
 
   const location = useLocation();
   const searchQuery = new URLSearchParams(location.search).get('q');
 
   useEffect(() => {
-    fetchMovies(searchQuery, page);
-  }, [searchQuery, page, fetchMovies]);
+    if (searchQuery) {
+      fetchMovies(searchQuery, page); 
+    }
+  }, [searchQuery, fetchMovies, setPage, setResults]);
 
   const showMoreMovies = () => {
     setVisibleMovies(prevVisibleMovies => prevVisibleMovies + 10);
-    setPage(prevPage => prevPage + 1);
   };
 
+  const sortMovies = (movies) => {
+    switch (sortType) {
+      case 'title':
+        return movies.sort((a, b) => a.Title.localeCompare(b.Title));
+      case 'title-desc':
+        return movies.sort((a, b) => b.Title.localeCompare(a.Title));
+      case 'Old-New':
+        return movies.sort((a, b) => parseInt(a.Year) - parseInt(b.Year));
+      case 'New-Old':
+        return movies.sort((a, b) => parseInt(b.Year) - parseInt(a.Year));
+      default:
+        return movies;
+    }
+  };
+
+  const sortedMovies = sortMovies([...results]);
+
   return (
-    <>
-      <section id='movies__list'>
-        <div className='search__container'>
-          <div className='row'>
-            <div className='page__bg'>
-              <div className='page__info'>
-                {error && <p>Error: {error}</p>}
-                {Array.isArray(results) && results.length ? (
-                  <>
-                    <ErrorBoundary>
-                      <Option />
-                    </ErrorBoundary>
-                    <Movies movies={results.slice(0, visibleMovies)} />
-                  </>
-                ) : (
-                  <p>No results found for "{query}"</p>
-                )}
-                <button onClick={showMoreMovies} className='show-more-button'>
-                  Show More ({Math.min(10, results.length - visibleMovies)} more)
-                </button>
-              </div>
-            </div>
+    <section id='movies__list'>
+      <div className='search__container'>
+        <div className='row'>
+          <div className='page__bg'>
+            {error && <div className="error">{error}</div>}
+            <Option />
+            <Movies movies={sortedMovies.slice(0, visibleMovies)} />
+            {results.length > visibleMovies && (
+              <button className='show-more-button' onClick={showMoreMovies}>Show More</button>
+            )}
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 };
 

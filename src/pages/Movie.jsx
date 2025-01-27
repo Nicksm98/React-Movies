@@ -3,11 +3,11 @@ import Description from '../components-movie/Description'
 import Additional from '../components-movie/Additional'
 
 const Movie = ({ imdbID, apiKey, query }) => {
-  const [movie, setMovie] = useState(null)
-  const [additionalMovies, setAdditionalMovies] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [searchResults, setSearchResults] = useState([])
+  const [movie, Movie] = useState(null)
+  const [additionalMovies, AdditionalMovies] = useState([])
+  const [loading, Loading] = useState(true)
+  const [error, Error] = useState(null)
+  const [searchResults, SearchResults] = useState([])
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -15,22 +15,22 @@ const Movie = ({ imdbID, apiKey, query }) => {
         const response = await fetch(`http://www.omdbapi.com/?i=${imdbID}&apikey=${apiKey}`)
         const data = await response.json()
         if (data.Response === 'True') {
-          setMovie(data)
+          Movie(data)
           const additionalResponse = await fetch(`http://www.omdbapi.com/?s=${query}&apikey=${apiKey}`)
           const additionalData = await additionalResponse.json()
           if (additionalData.Response === 'True') {
-            setAdditionalMovies(additionalData.Search)
-            setSearchResults(additionalData.Search)
+            AdditionalMovies(additionalData.Search)
+            SearchResults(additionalData.Search)
           } else {
-            setError(additionalData.Error)
+            Error(additionalData.Error)
           }
         } else {
-          setError(data.Error)
+          Error(data.Error)
         }
       } catch (err) {
-        setError('Failed to fetch movie details')
+        Error('Failed to fetch movie details')
       } finally {
-        setLoading(false)
+        Loading(false)
       }
     }
 

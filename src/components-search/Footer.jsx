@@ -4,9 +4,6 @@ const Footer = () => {
   return (
     <>
       <footer>
-        <div className='footer__logo'>
-          <img src='' alt='' />
-        </div>
         <div className='footer__info'>
           <p>&copy; 2025 Movie Database </p>
         </div>
