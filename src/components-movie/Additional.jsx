@@ -7,7 +7,6 @@ const Additional = ({ additionalMovies, currentMovieId, query }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const apiKey = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
     if (additionalMovies && additionalMovies.length > 0) {
@@ -18,7 +17,7 @@ const Additional = ({ additionalMovies, currentMovieId, query }) => {
       const fetchSimilarMovies = async () => {
         try {
           const response = await fetch(
-            `https://www.omdbapi.com/?s=${query}&apikey=${apiKey}`
+            `https://www.omdbapi.com/?s=${query}&apikey=f7d594de`
           );
           const data = await response.json();
           if (data.Response === 'True') {
@@ -35,7 +34,7 @@ const Additional = ({ additionalMovies, currentMovieId, query }) => {
 
       fetchSimilarMovies();
     }
-  }, [query, currentMovieId, apiKey, additionalMovies]);
+  }, [query, currentMovieId, additionalMovies]);
 
   const handlePrevClick = () => {
     setCurrentIndex(prevIndex => (prevIndex - 1 + similarMovies.length) % similarMovies.length);

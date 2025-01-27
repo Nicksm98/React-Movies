@@ -6,13 +6,13 @@ const Description = () => {
   const [movie, Movie] = useState(null)
   const [loading, Loading] = useState(true)
   const [error, Error] = useState(null)
-  const apiKey = process.env.REACT_APP_API_KEY
+
 
   useEffect(() => {
     const fetchMovie = async () => {
       try {
         const response = await fetch(
-          `https://www.omdbapi.com/?i=${imdbID}&apikey=${apiKey}`
+          `https://www.omdbapi.com/?i=${imdbID}&apikey=f7d594de`
         )
         const data = await response.json()
         if (data.Response === 'True') {
@@ -28,7 +28,7 @@ const Description = () => {
     }
 
     fetchMovie()
-  }, [imdbID, apiKey])
+  }, [imdbID])
 
   if (loading) {
     return <p>Loading...</p>

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import Header from '../components-home/Header';
-import Genres from '../components-home/Genres';
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
+import React, { useState, useEffect } from 'react'
+import Header from '../components-home/Header'
+import Genres from '../components-home/Genres'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const images = [
   {
@@ -131,62 +131,62 @@ const images = [
     className: 'genre__img',
     genre: 'Cult'
   }
-];
+]
 
 const Home = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const loadImages = async () => {
       const promises = images.map(image => {
         return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.src = image.src;
-          img.onload = resolve;
-          img.onerror = reject;
-        });
-      });
+          const img = new Image()
+          img.src = image.src
+          img.onload = resolve
+          img.onerror = reject
+        })
+      })
 
       try {
-        await Promise.all(promises);
-        setLoading(false);
+        await Promise.all(promises)
+        setLoading(false)
       } catch (error) {
-        console.error('Failed to load images', error);
-        setLoading(false);
+        console.error('Failed to load images', error)
+        setLoading(false)
       }
-    };
+    }
 
-    loadImages();
-  }, []);
+    loadImages()
+  }, [])
 
   if (loading) {
-       return (
+    return (
       <div>
         {images.map(image => (
           <Skeleton key={image.id} height={200} width={300} />
         ))}
       </div>
-    );
+    )
   }
 
   return (
     <div id='home'>
-    <div className='search__container'>
-    <div className='row'>
-    <div className='page__bg'>
-    <div className='home__info'>
-      <section id='landing'>
-        <Header firstHalf={images.slice(0, 9)} />
-      </section>
-      <section id='genres'>
-        <Genres secondHalf={images.slice(9)} />
-      </section>
+      <div className='search__container'>
+        <div className='row'>
+          <div className='page__bg'>
+            <div className='home__info'>
+              <section id='landing'>
+                <Header firstHalf={images.slice(0, 9)} />
+              </section>
+              <section id='genres'>
+                <Genres secondHalf={images.slice(9)} />
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    </div>
-    </div>
-    </div>
-    </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

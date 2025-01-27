@@ -8,13 +8,13 @@ export const SearchProvider = ({ children }) => {
   const [page, setPage] = useState(1);
   const [error, setError] = useState(null);
   const [sortType, setSortType] = useState('title');
-  const apiKey = process.env.REACT_APP_API_KEY;
+
 
   const fetchMovies = useCallback(async (query, page, reset = false) => {
     if (reset) {
       setResults([]); // Clear previous results for new search
     }
-    const url = `https://www.omdbapi.com/?apikey=${apiKey}&s=${encodeURIComponent(query)}&page=${page}`;
+    const url = `https://www.omdbapi.com/?apikey=f7d594de&s=${encodeURIComponent(query)}&page=${page}`;
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -32,7 +32,7 @@ export const SearchProvider = ({ children }) => {
     } catch (error) {
       setError(error.message);
     }
-  }, [apiKey]);
+  }, []);
 
   return (
     <SearchContext.Provider

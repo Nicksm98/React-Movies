@@ -8,9 +8,9 @@ const Nav = ({ Results, Error, Query }) => {
   const handleSearch = async (e) => {
     e.preventDefault();
     const query = e.target.elements.query.value;
-    const apiKey = process.env.REACT_APP_API_KEY;
+
     const page = 1;
-    const url = `https://www.omdbapi.com/?apikey=${apiKey}&s=${encodeURIComponent(query)}&page=${page}`;
+    const url = `https://www.omdbapi.com/?apikey=f7d594de&s=${encodeURIComponent(query)}&page=${page}`;
 
     try {
       const response = await fetch(url);

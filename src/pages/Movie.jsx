@@ -11,16 +11,15 @@ const Movie = () => {
   const [additionalMovies, setAdditionalMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const apiKey = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const response = await fetch(`http://www.omdbapi.com/?i=${imdbID}&apikey=${apiKey}`);
+        const response = await fetch(`http://www.omdbapi.com/?i=${imdbID}&apikey=f7d594de`);
         const data = await response.json();
         if (data.Response === 'True') {
           setMovie(data);
-          const additionalResponse = await fetch(`http://www.omdbapi.com/?s=${searchQuery}&apikey=${apiKey}`);
+          const additionalResponse = await fetch(`http://www.omdbapi.com/?s=${searchQuery}&apikey=f7d594de`);
           const additionalData = await additionalResponse.json();
           if (additionalData.Response === 'True') {
             setAdditionalMovies(additionalData.Search);
@@ -38,12 +37,7 @@ const Movie = () => {
     };
 
     fetchMovie();
-  }, [imdbID, apiKey, searchQuery]);
-
-  console.log('movie:', movie);
-  console.log('additionalMovies:', additionalMovies);
-  console.log('loading:', loading);
-  console.log('error:', error);
+  }, [imdbID, searchQuery]);
 
   return (
     <>
