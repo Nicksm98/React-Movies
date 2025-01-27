@@ -174,12 +174,14 @@ const Home = () => {
     <div className='search__container'>
     <div className='row'>
     <div className='page__bg'>
+    <div className='home__info'>
       <section id='landing'>
         <Header firstHalf={images.slice(0, 9)} />
       </section>
       <section id='genres'>
         <Genres secondHalf={images.slice(9)} />
       </section>
+    </div>
     </div>
     </div>
     </div>
