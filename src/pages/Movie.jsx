@@ -1,41 +1,49 @@
-import React, { useState, useEffect } from 'react'
-import Description from '../components-movie/Description'
-import Additional from '../components-movie/Additional'
+import React, { useState, useEffect } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
+import Description from '../components-movie/Description';
+import Additional from '../components-movie/Additional';
 
-const Movie = ({ imdbID, apiKey, query }) => {
-  const [movie, Movie] = useState(null)
-  const [additionalMovies, AdditionalMovies] = useState([])
-  const [loading, Loading] = useState(true)
-  const [error, Error] = useState(null)
-  const [searchResults, SearchResults] = useState([])
+const Movie = () => {
+  const { imdbID } = useParams();
+  const location = useLocation();
+  const searchQuery = new URLSearchParams(location.search).get('q');
+  const [movie, setMovie] = useState(null);
+  const [additionalMovies, setAdditionalMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const apiKey = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const response = await fetch(`http://www.omdbapi.com/?i=${imdbID}&apikey=${apiKey}`)
-        const data = await response.json()
+        const response = await fetch(`http://www.omdbapi.com/?i=${imdbID}&apikey=${apiKey}`);
+        const data = await response.json();
         if (data.Response === 'True') {
-          Movie(data)
-          const additionalResponse = await fetch(`http://www.omdbapi.com/?s=${query}&apikey=${apiKey}`)
-          const additionalData = await additionalResponse.json()
+          setMovie(data);
+          const additionalResponse = await fetch(`http://www.omdbapi.com/?s=${searchQuery}&apikey=${apiKey}`);
+          const additionalData = await additionalResponse.json();
           if (additionalData.Response === 'True') {
-            AdditionalMovies(additionalData.Search)
-            SearchResults(additionalData.Search)
+            setAdditionalMovies(additionalData.Search);
           } else {
-            Error(additionalData.Error)
+            setError(additionalData.Error);
           }
         } else {
-          Error(data.Error)
+          setError(data.Error);
         }
       } catch (err) {
-        Error('Failed to fetch movie details')
+        setError('Failed to fetch movie details');
       } finally {
-        Loading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchMovie()
-  }, [imdbID, apiKey, query])
+    fetchMovie();
+  }, [imdbID, apiKey, searchQuery]);
+
+  console.log('movie:', movie);
+  console.log('additionalMovies:', additionalMovies);
+  console.log('loading:', loading);
+  console.log('error:', error);
 
   return (
     <>
@@ -45,14 +53,14 @@ const Movie = ({ imdbID, apiKey, query }) => {
             <div className='page__bg'>
               <div className='movie__info'>
                 <Description movie={movie} loading={loading} error={error} />
-                {movie && <Additional additionalMovies={additionalMovies} currentMovieId={imdbID} query={query} searchResults={searchResults} />}
+                {movie && <Additional additionalMovies={additionalMovies} currentMovieId={imdbID} query={searchQuery} />}
               </div>
             </div>
           </div>
         </div>
       </section>
     </>
-  )
-}
+  );
+};
 
-export default Movie
+export default Movie;

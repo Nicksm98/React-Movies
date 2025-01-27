@@ -4,7 +4,7 @@ import Container from './Container';
 
 const Header = ({ firstHalf, searchResults, searchError }) => {
   return (
-    <header>
+    <header className='home__info'>
       <div className="header__text">
         <h1 className="header__title">
           Find any movie you're looking for right here!

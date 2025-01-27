@@ -144,6 +144,11 @@ LANDING PAGE
 
 */
 
+#home {
+    background-color: #51ecf1;
+}
+
+
 header {
     display: flex;
     flex-direction: column;
@@ -161,10 +166,9 @@ header {
     justify-content: center;
     align-items: center;
     text-align: center;
-    height: 30%;
     width: 100%;
-    background-color: #51ecf1;
     color: #000;
+    padding-top: 24px;
 }
 
 .header__title {
@@ -412,12 +416,20 @@ Movies Page
   box-sizing: border-box;
 }
 
-.page__info {
+.page__info,
+.home__info {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.page__info {
   background-color: bisque
+}
+
+.home__info {
+  background-color: beige;
 }
 
 .search__menu {
@@ -474,12 +486,15 @@ Movies Page
   
 
   .movie-card {
+    height: 350px;
     width: 200px;
     padding: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #000;
     border-radius: 25px;
     text-align: center;
+    margin-bottom: 8px;
+    padding: 8px;
   }
 h3 {
     font-size: 16px;

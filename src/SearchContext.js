@@ -24,7 +24,11 @@ export const SearchProvider = ({ children }) => {
       if (data.Response === 'False') {
         throw new Error(data.Error);
       }
-      setResults(prevResults => [...prevResults, ...data.Search]);
+      setResults(prevResults => {
+        const uniqueMovies = new Set(prevResults.map(movie => movie.imdbID));
+        const newMovies = data.Search.filter(movie => !uniqueMovies.has(movie.imdbID));
+        return [...prevResults, ...newMovies];
+      });
     } catch (error) {
       setError(error.message);
     }
