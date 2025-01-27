@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const Additional = ({ additionalMovies, currentMovieId, query }) => {
-  const [similarMovies, SimilarMovies] = useState([])
-  const [loading, Loading] = useState(true)
-  const [error, Error] = useState(null)
+  const [similarMovies, setSimilarMovies] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const apiKey = process.env.REACT_APP_API_KEY
 
   useEffect(() => {
     if (additionalMovies && additionalMovies.length > 0) {
       const filteredMovies = additionalMovies.filter(movie => movie.imdbID !== currentMovieId).slice(0, 4)
-      SimilarMovies(filteredMovies)
-      Loading(false)
+      setSimilarMovies(filteredMovies)
+      setLoading(false)
     } else {
       const fetchSimilarMovies = async () => {
         try {
@@ -20,14 +20,14 @@ const Additional = ({ additionalMovies, currentMovieId, query }) => {
           )
           const data = await response.json()
           if (data.Response === 'True') {
-            SimilarMovies(data.Search.filter(movie => movie.imdbID !== currentMovieId).slice(0, 4))
+            setSimilarMovies(data.Search.filter(movie => movie.imdbID !== currentMovieId).slice(0, 4))
           } else {
-            Error(data.Error)
+            setError(data.Error)
           }
         } catch (err) {
-          Error('Failed to fetch similar movies')
+          setError('Failed to fetch similar movies')
         } finally {
-          Loading(false)
+          setLoading(false)
         }
       }
 

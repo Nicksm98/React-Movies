@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import SearchBar from '../comps/SearchBar'
 
 const Nav = ({ Results, Error, Query }) => {
-  const [query] = useState('')
+  const [query, setQuery] = useState('')
   const navigate = useNavigate()
 
   const handleSearch = async (e) => {
@@ -39,6 +39,7 @@ const Nav = ({ Results, Error, Query }) => {
         <SearchBar
           handleSearch={handleSearch}
           query={query}
+          Query={setQuery}
         />
       </div>
     </>

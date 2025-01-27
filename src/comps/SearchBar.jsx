@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SearchBar = ({ query, handleSearch }) => {
+const SearchBar = ({ query, setQuery, handleSearch }) => {
   return (
     <div className='search__bar'>
       <form className='search__input' onSubmit={handleSearch}>
@@ -8,7 +8,7 @@ const SearchBar = ({ query, handleSearch }) => {
           className='search__box'
           type='search'
           value={query}
-          onChange={(e) => (e.target.value)}
+          onChange={(e) => setQuery(e.target.value)}
           placeholder='Search movies...'
         />
         <button className='search__btn' type='submit'>

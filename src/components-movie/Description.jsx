@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom'
 
 const Description = () => {
   const { imdbID } = useParams()
-  const [movie, Movie] = useState(null)
-  const [loading, Loading] = useState(true)
-  const [error, Error] = useState(null)
+  const [movie, setMovie] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const apiKey = process.env.REACT_APP_API_KEY
 
   useEffect(() => {
@@ -16,14 +16,14 @@ const Description = () => {
         )
         const data = await response.json()
         if (data.Response === 'True') {
-          Movie(data)
+          setMovie(data)
         } else {
-          Error(data.Error)
+          setError(data.Error)
         }
       } catch (err) {
-        Error('Failed to fetch movie details')
+        setError('Failed to fetch movie details')
       } finally {
-        Loading(false)
+        setLoading(false)
       }
     }
 
